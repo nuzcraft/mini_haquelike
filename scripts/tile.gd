@@ -5,7 +5,7 @@ var y: int setget, get_y
 var is_explored: bool = false setget set_is_explored,get_is_explored
 var is_walkable: bool = true setget set_is_walkable,get_is_walkable
 var is_visible: bool = false setget set_is_visible,get_is_visible
-var tile_type = null
+var tile_type = "EMPTY"
 
 func _init(x_param, y_param):
 	x = x_param
