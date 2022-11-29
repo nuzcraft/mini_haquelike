@@ -11,7 +11,11 @@ func _ready():
 	rng.randomize()
 	# create a simple 2d array to hold our initial map of tiles 
 	var tiles = generate_world()
-	tiles = generate_rooms(tiles)	
+	tiles = generate_random_room(tiles, 11, 1)
+	tiles = generate_random_room(tiles, 20, 1)
+	tiles = generate_random_room(tiles, 11, 10)
+	tiles = generate_random_room(tiles, 20, 10)
+	
 	set_tilemap_cells(tiles)
 	
 func generate_world():
@@ -43,7 +47,7 @@ func create_room_in_2d_array(array, start_x, start_y, width, height):
 	array = create_rect_in_2d_array(array, start_x + 1, start_y + 1, width - 2, height - 2, FloorTile)
 	return array
 	
-func generate_rooms(tiles):
+func generate_random_room(tiles, map_x, map_y):
 	# get possible rooms based on room layout data
 	var image_size = rooms_layouts_data.get_size()
 	var num_rooms_x = image_size.x / ROOM_SIZE
@@ -60,8 +64,11 @@ func generate_rooms(tiles):
 			rooms_layouts_data.lock()
 			var pixel = rooms_layouts_data.get_pixel(start_x + x, start_y + y)
 			# if the pixel is back, set the tile to a WallTile
-			if pixel == Color.black:
-				tiles[20 + x][1 + y] = WallTile.new(20 + x, 1 + y)
-			if pixel == Color.white:
-				tiles[20 + x][1 + y] = FloorTile.new(20 + x, 1 + y)
+			var new_tile = Tile.new(map_x + x, map_y + y)
+			match pixel:
+				Color.black:
+					new_tile = WallTile.new(map_x + x, map_y + y)
+				Color.white:
+					new_tile = FloorTile.new(map_x + x, map_y + y)
+			tiles[map_x + x][map_y + y] = new_tile
 	return tiles
