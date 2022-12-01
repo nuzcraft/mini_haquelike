@@ -1,6 +1,7 @@
 class_name DungeonGenerator
 
 const ROOM_SIZE = 9
+const ROOM_SLOTS_IN_WORLD = 6
 
 var rooms_layouts_data = preload("res://resources/room_layouts.png").get_data()
 
@@ -12,17 +13,27 @@ var rng = RandomNumberGenerator.new()
 
 func _init(input_tiles):
 	tiles = input_tiles
-	num_tiles_x = tiles.size()
-	num_tiles_y = tiles[0].size()
+	num_tiles_x = input_tiles.size()
+	num_tiles_y = input_tiles[0].size()
 
 func generate_dungeon():
 	rng.randomize()
 	tiles = create_rect_in_2d_array(tiles, 0, 0, num_tiles_x, num_tiles_y, Tile)
-	tiles = generate_random_room(tiles, 11, 1)
-	tiles = generate_random_room(tiles, 20, 1)
-	tiles = generate_random_room(tiles, 11, 10)
-	tiles = generate_random_room(tiles, 20, 10)
+	var rooms = generate_empty_2d_array(ROOM_SLOTS_IN_WORLD, ROOM_SLOTS_IN_WORLD)
+#	tiles = generate_random_room(tiles, 11, 1)
+#	tiles = generate_random_room(tiles, 20, 1)
+#	tiles = generate_random_room(tiles, 11, 10)
+#	tiles = generate_random_room(tiles, 20, 10)
 	return tiles
+
+func generate_empty_2d_array(x_size, y_size):
+	var array = []
+	# fill space with empty tiles
+	for i in x_size:
+		array.append([])
+		for j in y_size:
+			array[i].append(null)
+	return array
 
 func create_rect_in_2d_array(array, start_x, start_y, width, height, tile):
 	for i in range(start_x, start_x + width):
