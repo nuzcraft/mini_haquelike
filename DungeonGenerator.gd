@@ -22,6 +22,25 @@ func generate_dungeon():
 	var rooms = generate_empty_2d_array(ROOM_SLOTS_IN_WORLD, ROOM_SLOTS_IN_WORLD)
 	# choose a random room to start
 	var first_room_coords_array = get_not_null_random_coords_in_2d_array(rooms)
+
+	###
+	# start with an 2d array of room slots
+	# pick one of the slots as the first room
+	# find available adjacent slots, pick one, add to list of rooms
+	# repeat x times to create the happy path of the dungeon
+	# store the happy path somewhere
+	# choose a random room
+	# find available adjacent slots, pick one, add to list of rooms
+	# repeat x times for branching paths
+	###
+	# now we have the map we need to build
+	###
+	# go through each room, and assign it a room layout
+	# export room layout info to tiles (a 2d array)
+	# fill in the outer walls
+	# fill in spaces between 2 happy path rooms with wall tiles
+	# return tiles array
+	###
 	
 #	tiles = generate_random_room(tiles, 11, 1)
 #	tiles = generate_random_room(tiles, 20, 1)
