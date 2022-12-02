@@ -1,7 +1,7 @@
 class_name DungeonGenerator
 
 const ROOM_SIZE = 9
-const ROOM_SLOTS_IN_WORLD = 6
+const ROOM_SLOTS_IN_WORLD = 7
 
 var rooms_layouts_data = preload("res://resources/room_layouts.png").get_data()
 
@@ -20,6 +20,9 @@ func generate_dungeon():
 	rng.randomize()
 	tiles = create_rect_in_2d_array(tiles, 0, 0, num_tiles_x, num_tiles_y, Tile)
 	var rooms = generate_empty_2d_array(ROOM_SLOTS_IN_WORLD, ROOM_SLOTS_IN_WORLD)
+	# choose a random room to start
+	var first_room_coords_array = get_not_null_random_coords_in_2d_array(rooms)
+	
 #	tiles = generate_random_room(tiles, 11, 1)
 #	tiles = generate_random_room(tiles, 20, 1)
 #	tiles = generate_random_room(tiles, 11, 10)
@@ -71,3 +74,34 @@ func generate_random_room(tiles, map_x, map_y):
 					new_tile = FloorTile.new(map_x + x, map_y + y)
 			tiles[map_x + x][map_y + y] = new_tile
 	return tiles
+	
+func get_random_coords_in_2d_array(array):
+	var x_length = array.size()
+	var y_length = array[0].size()
+	
+	var rand_x = rng.randi_range(0, x_length)
+	var rand_y = rng.randi_range(0, y_length)
+	return [rand_x, rand_y]
+	
+func get_not_null_random_coords_in_2d_array(array):
+	var result = null
+	while not result:
+		result = get_random_coords_in_2d_array(array)
+	return result
+	
+func get_adjacent_coord_arrays(coord_array, array):
+	var coord_x = coord_array[0]
+	var coord_y = coord_array[1]
+	var adjacent_coord_arrays = []
+	
+	if coord_x + 1 < array.size():
+		adjacent_coord_arrays.append([coord_x + 1, coord_y])
+	if coord_x > 0:
+		adjacent_coord_arrays.append([coord_x - 1, coord_y])
+	if coord_y + 1 < array[0].size():
+		adjacent_coord_arrays.append([coord_x, coord_y + 1])
+	if coord_y > 0:
+		adjacent_coord_arrays.append([coord_x, coord_y - 1])
+	
+	return adjacent_coord_arrays
+		
