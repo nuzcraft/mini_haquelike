@@ -2,22 +2,22 @@ extends Node2D
 
 onready var tilemap := $WorldTileMap
 
-const WORLD_SIZE_X = 45
-const WORLD_SIZE_Y = 25
+const WORLD_SIZE_X = 50
+const WORLD_SIZE_Y = 50
 
 func _ready():
 	# create a simple 2d array to hold our initial map of tiles 
-	var tiles = generate_empty_2d_array(WORLD_SIZE_X, WORLD_SIZE_Y)
+	var tiles = generate_tiles_array(WORLD_SIZE_X, WORLD_SIZE_Y)
 	var dungeonGenerator = DungeonGenerator.new(tiles)
 	tiles = dungeonGenerator.generate_dungeon()
 	set_tilemap_cells(tiles)
 	
-func generate_empty_2d_array(x_size, y_size):
+func generate_tiles_array(x_size, y_size):
 	var array = []
 	for i in x_size:
 		array.append([])
 		for j in y_size:
-			array[i].append(null)
+			array[i].append(Tile.new(i, j))
 	return array	
 		
 func set_tilemap_cells(tiles) -> void:
