@@ -18,6 +18,7 @@ func _init(input_tiles):
 
 func generate_dungeon():
 	rng.randomize()
+	var dungeon_data: Dictionary
 	###
 	# start with a 2d array of room slots
 	var rooms = []
@@ -29,6 +30,7 @@ func generate_dungeon():
 	var initial_room_x = rng.randi_range(0, ROOM_SLOTS_IN_WORLD - 1)
 	var initial_room_y = rng.randi_range(0, ROOM_SLOTS_IN_WORLD - 1)
 	var this_room_coords = [initial_room_x, initial_room_y]
+	dungeon_data["spawn_coordinates"] = [initial_room_x * ROOM_SIZE_TILES + 4, initial_room_y * ROOM_SIZE_TILES + 2]
 	var rooms_coords = []
 	rooms_coords.append(this_room_coords)
 	# find available adjacent slots, pick one, add to list of rooms
@@ -103,7 +105,8 @@ func generate_dungeon():
 				else:
 					found_link_to_happy_path = true
 	# TODO: put walls between branch rooms unless it would block access
-	return tiles
+	dungeon_data["tiles"] = tiles
+	return dungeon_data
 	
 func get_adjacent_room_coords(coords_array):
 	var adjacent_coords = []
