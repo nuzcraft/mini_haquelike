@@ -12,7 +12,7 @@ _global_script_classes=[ {
 "base": "Node2D",
 "class": "Actor",
 "language": "GDScript",
-"path": "res://Actor.gd"
+"path": "res://scenes/Actor.gd"
 }, {
 "base": "Reference",
 "class": "DungeonGenerator",
@@ -27,7 +27,7 @@ _global_script_classes=[ {
 "base": "Actor",
 "class": "Hero",
 "language": "GDScript",
-"path": "res://Hero.gd"
+"path": "res://scenes/Hero.gd"
 }, {
 "base": "Reference",
 "class": "Tile",
