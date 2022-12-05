@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Node2D",
+"class": "Actor",
+"language": "GDScript",
+"path": "res://Actor.gd"
+}, {
 "base": "Reference",
 "class": "DungeonGenerator",
 "language": "GDScript",
@@ -19,7 +24,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/floor_tile.gd"
 }, {
-"base": "Node2D",
+"base": "Actor",
 "class": "Hero",
 "language": "GDScript",
 "path": "res://Hero.gd"
@@ -35,6 +40,7 @@ _global_script_classes=[ {
 "path": "res://scripts/wall_tile.gd"
 } ]
 _global_script_class_icons={
+"Actor": "",
 "DungeonGenerator": "",
 "FloorTile": "",
 "Hero": "",
