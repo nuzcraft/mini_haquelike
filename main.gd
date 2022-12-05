@@ -1,12 +1,12 @@
 extends Node2D
 
 onready var tilemap := $WorldTileMap
+onready var hero := $Hero
 
 const WORLD_SIZE_X = 50
 const WORLD_SIZE_Y = 50
 const TILE_SIZE = 24
 
-var hero: Hero
 var tiles
 
 func _ready():
@@ -17,11 +17,8 @@ func _ready():
 	var spawn_coords = dungeonData.spawn_coordinates
 	set_tilemap_cells(tiles)
 	
-	## bring in the hero
-	var hero_scene = load("res://Hero.tscn")
-	hero = hero_scene.instance()
+	# set hero starting coords
 	hero.set_tile_coords(spawn_coords)
-	add_child(hero)
 	
 func _process(delta):
 	if Input.is_action_just_pressed("ui_up"):
