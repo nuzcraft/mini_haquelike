@@ -20,6 +20,15 @@ func _ready():
 	# set hero starting coords
 	hero.set_tile_coords(spawn_coords)
 	
+	# create a couple enemies
+	var enemy_scene = load("res://scenes/Enemy.tscn")
+	for i in 3:
+		var enemy: Enemy = enemy_scene.instance()
+		var new_coords = spawn_coords
+		new_coords[1] += 3*i + 1
+		enemy.set_tile_coords(new_coords)
+		add_child(enemy)
+	
 func _process(delta):
 	if Input.is_action_just_pressed("ui_up"):
 		try_move(hero, [0, -1])
