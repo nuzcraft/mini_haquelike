@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Reference",
+"class": "AStarGenerator",
+"language": "GDScript",
+"path": "res://AStarGenerator.gd"
+}, {
 "base": "Node2D",
 "class": "Actor",
 "language": "GDScript",
@@ -45,6 +50,7 @@ _global_script_classes=[ {
 "path": "res://scripts/wall_tile.gd"
 } ]
 _global_script_class_icons={
+"AStarGenerator": "",
 "Actor": "",
 "DungeonGenerator": "",
 "Enemy": "",
