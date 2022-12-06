@@ -19,11 +19,12 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[node name="Enemy" type="Node2D"]
+[node name="Enemy" type="Node2D" groups=["actors"]]
 script = ExtResource( 2 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 position = Vector2( 12, 12 )
 frames = SubResource( 3 )
 animation = "idle"
+frame = 1
 playing = true
