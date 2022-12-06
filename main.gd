@@ -21,12 +21,11 @@ func _ready():
 	hero.set_tile_coords(spawn_coords)
 	
 	# create a couple enemies
-	var enemy_scene = load("res://scenes/Enemy.tscn")
-	for i in 3:
+	var enemy_scene = load("res://scenes/Enemy.tscn")		
+	var enemy_spawn_coords = dungeonData.enemy_spawn_coordinates
+	for coord in enemy_spawn_coords:
 		var enemy: Enemy = enemy_scene.instance()
-		var new_coords = spawn_coords
-		new_coords[1] += 3*i + 1
-		enemy.set_tile_coords(new_coords)
+		enemy.set_tile_coords(coord)
 		add_child(enemy)
 	
 func _process(delta):
