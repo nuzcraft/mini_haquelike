@@ -1,13 +1,14 @@
 extends Node2D
 
 onready var tilemap := $WorldTileMap
+onready var hero := $Hero
 
 const WORLD_SIZE_X = 50
 const WORLD_SIZE_Y = 50
 const TILE_SIZE = 24
 
-var hero: Hero
 var tiles
+var turn_taken = false
 
 func _ready():
 	tiles = generate_tiles_array(WORLD_SIZE_X, WORLD_SIZE_Y)
@@ -17,11 +18,16 @@ func _ready():
 	var spawn_coords = dungeonData.spawn_coordinates
 	set_tilemap_cells(tiles)
 	
-	## bring in the hero
-	var hero_scene = load("res://Hero.tscn")
-	hero = hero_scene.instance()
+	# set hero starting coords
 	hero.set_tile_coords(spawn_coords)
-	add_child(hero)
+	
+	# create a couple enemies
+	var enemy_scene = load("res://scenes/Enemy.tscn")		
+	var enemy_spawn_coords = dungeonData.enemy_spawn_coordinates
+	for coord in enemy_spawn_coords:
+		var enemy: Enemy = enemy_scene.instance()
+		enemy.set_tile_coords(coord)
+		add_child(enemy)
 	
 func _process(delta):
 	if Input.is_action_just_pressed("ui_up"):
@@ -32,6 +38,13 @@ func _process(delta):
 		try_move(hero, [-1, 0])
 	if Input.is_action_just_pressed("ui_right"):
 		try_move(hero, [1, 0])
+		
+	if turn_taken:
+		for actor in get_tree().get_nodes_in_group("actors"):
+			if actor != hero:
+				try_move(actor, [1, 0])
+	
+	turn_taken = false
 	
 func generate_tiles_array(x_size, y_size):
 	var array = []
@@ -54,4 +67,6 @@ func try_move(actor, delta_array):
 	var destination_tile = tiles[new_tile_x][new_tile_y]
 	if destination_tile.get_is_walkable():
 		actor.move(delta_array)
+		if actor == hero:
+			turn_taken = true
 	

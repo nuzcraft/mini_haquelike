@@ -8,6 +8,7 @@ var rooms_layouts_data = preload("res://resources/room_layouts.png").get_data()
 var tiles = []
 var num_tiles_x = 0
 var num_tiles_y = 0
+var enemy_spawn_coordinates = []
 
 var rng = RandomNumberGenerator.new()
 
@@ -106,6 +107,7 @@ func generate_dungeon():
 					found_link_to_happy_path = true
 	# TODO: put walls between branch rooms unless it would block access
 	dungeon_data["tiles"] = tiles
+	dungeon_data["enemy_spawn_coordinates"] = enemy_spawn_coordinates
 	return dungeon_data
 	
 func get_adjacent_room_coords(coords_array):
@@ -147,6 +149,9 @@ func generate_random_room(tiles, map_x, map_y):
 			match pixel:
 				Color.black:
 					new_tile = WallTile.new(map_x + x, map_y + y)
+				Color.red:
+					enemy_spawn_coordinates.append([map_x + x, map_y + y])
+					new_tile = FloorTile.new(map_x + x, map_y + y)
 				Color.white:
 					new_tile = FloorTile.new(map_x + x, map_y + y)
 			tiles[map_x + x][map_y + y] = new_tile

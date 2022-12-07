@@ -1,6 +1,6 @@
 extends Node2D
 
-class_name Hero
+class_name Actor
 
 onready var animatedSprite := $AnimatedSprite
 
