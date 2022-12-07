@@ -22,11 +22,6 @@ _global_script_classes=[ {
 "base": "Reference",
 "class": "DungeonGenerator",
 "language": "GDScript",
-"path": "res://DungeonGenerator_old.gd"
-}, {
-"base": "Reference",
-"class": "DungeonGenerator_old",
-"language": "GDScript",
 "path": "res://DungeonGenerator.gd"
 }, {
 "base": "Actor",
@@ -63,7 +58,6 @@ _global_script_class_icons={
 "AStarGenerator": "",
 "Actor": "",
 "DungeonGenerator": "",
-"DungeonGenerator_old": "",
 "Enemy": "",
 "FloorTile": "",
 "Hero": "",

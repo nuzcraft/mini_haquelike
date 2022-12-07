@@ -1,25 +1,22 @@
-class_name DungeonGenerator_old
+class_name DungeonGenerator
 
 const ROOM_SIZE_TILES = 9
 const ROOM_SLOTS_IN_WORLD = 5
 
 var rooms_layouts_data = preload("res://resources/room_layouts.png").get_data()
 
-var tiles = []
-var num_tiles_x = 0
-var num_tiles_y = 0
+var map: Map
 var enemy_spawn_coordinates = []
 
 var rng = RandomNumberGenerator.new()
 
-func _init(input_tiles):
-	tiles = input_tiles
-	num_tiles_x = input_tiles.size()
-	num_tiles_y = input_tiles[0].size()
+func _init(map_param: Map):
+	map = map_param
+	print(map)
 
 func generate_dungeon():
 	rng.randomize()
-	var dungeon_data: Dictionary
+	var dungeon_data: Dictionary = {}
 	###
 	# start with a 2d array of room slots
 	var rooms = []
@@ -63,22 +60,22 @@ func generate_dungeon():
 	for room_coord in rooms_coords:
 		var map_x = room_coord[0] * ROOM_SIZE_TILES
 		var map_y = room_coord[1] * ROOM_SIZE_TILES
-		tiles = generate_random_room(tiles, map_x, map_y)
+		generate_random_room(map_x, map_y)
 	# fill in the outer walls
 	for room_coord in rooms_coords:
 		var adjacent_room_coords = get_adjacent_room_coords(room_coord)
 		for adjacent_room_coord in adjacent_room_coords:
 			if not rooms_coords.has(adjacent_room_coord):
 				var direction = get_direction_from_coord_to_coord(room_coord, adjacent_room_coord)
-				tiles = fill_wall_direction(tiles, room_coord, direction)
+				fill_wall_direction(room_coord, direction)
 		if room_coord[0] == 0:
-			tiles = fill_wall_direction(tiles, room_coord, "left")
+			fill_wall_direction(room_coord, "left")
 		if room_coord[1] == 0:
-			tiles = fill_wall_direction(tiles, room_coord, "up")
+			fill_wall_direction(room_coord, "up")
 		if room_coord[0] == ROOM_SLOTS_IN_WORLD - 1:
-			tiles = fill_wall_direction(tiles, room_coord, "right")
+			fill_wall_direction(room_coord, "right")
 		if room_coord[1] == ROOM_SLOTS_IN_WORLD - 1:
-			tiles = fill_wall_direction(tiles, room_coord, "down")
+			fill_wall_direction(room_coord, "down")
 	# fill in spaces between 2 happy path rooms with wall tiles
 	for index in happy_path_coords.size() - 1:
 		var adjacent_room_coords = get_adjacent_room_coords(happy_path_coords[index])
@@ -93,7 +90,7 @@ func generate_dungeon():
 						match_adjacent_happy_path = true
 				if match_adjacent_happy_path == false:
 					var direction = get_direction_from_coord_to_coord(happy_path_coords[index], adjacent_room_coord)
-					tiles = fill_wall_direction(tiles, happy_path_coords[index], direction)
+					fill_wall_direction(happy_path_coords[index], direction)
 	# fill in spaces between branch rooms so they only have one entrance
 	for coord in branch_rooms:
 		var adjacent_room_coords = get_adjacent_room_coords(coord)
@@ -102,11 +99,11 @@ func generate_dungeon():
 			if adjacent_room_coord in happy_path_coords:
 				if found_link_to_happy_path == true:
 					var direction = get_direction_from_coord_to_coord(adjacent_room_coord, coord)
-					tiles = fill_wall_direction(tiles, adjacent_room_coord, direction)
+					fill_wall_direction(adjacent_room_coord, direction)
 				else:
 					found_link_to_happy_path = true
 	# TODO: put walls between branch rooms unless it would block access
-	dungeon_data["tiles"] = tiles
+	dungeon_data["map"] = map
 	dungeon_data["enemy_spawn_coordinates"] = enemy_spawn_coordinates
 	return dungeon_data
 	
@@ -128,7 +125,7 @@ func get_adjacent_room_coords(coords_array):
 func get_random_room_coords(coords_array):
 	return coords_array[rng.randi_range(0, coords_array.size() - 1)]
 	
-func generate_random_room(tiles, map_x, map_y):
+func generate_random_room(map_x, map_y):
 	# get possible rooms based on room layout data
 	var image_size = rooms_layouts_data.get_size()
 	var num_rooms_x = image_size.x / ROOM_SIZE_TILES
@@ -148,14 +145,13 @@ func generate_random_room(tiles, map_x, map_y):
 			var new_tile = Tile.new(map_x + x, map_y + y)
 			match pixel:
 				Color.black:
-					new_tile = WallTile.new(map_x + x, map_y + y)
+					new_tile = WallTile
 				Color.red:
 					enemy_spawn_coordinates.append([map_x + x, map_y + y])
-					new_tile = FloorTile.new(map_x + x, map_y + y)
+					new_tile = FloorTile
 				Color.white:
-					new_tile = FloorTile.new(map_x + x, map_y + y)
-			tiles[map_x + x][map_y + y] = new_tile
-	return tiles
+					new_tile = FloorTile
+			map.add_tile(map_x + x, map_y + y, new_tile)
 
 func get_direction_from_coord_to_coord(from_coord, to_coord):
 	var from_coord_x = from_coord[0]
@@ -171,22 +167,20 @@ func get_direction_from_coord_to_coord(from_coord, to_coord):
 	elif to_coord_y < from_coord_y:
 		return "up"
 		
-
-func fill_wall_direction(tiles, room_coord, direction):
+func fill_wall_direction(room_coord, direction):
 	var room_coord_x = room_coord[0]
 	var room_coord_y = room_coord[1]
 	var map_x = room_coord_x * ROOM_SIZE_TILES
 	var map_y = room_coord_y * ROOM_SIZE_TILES
 	if direction == "up":
 		for tile_x in range(map_x, map_x + ROOM_SIZE_TILES):
-			tiles[tile_x][map_y] = WallTile.new(tile_x, map_y)
+			map.add_tile(tile_x, map_y, WallTile)
 	if direction == "down":
 		for tile_x in range(map_x, map_x + ROOM_SIZE_TILES):
-			tiles[tile_x][map_y + ROOM_SIZE_TILES - 1] = WallTile.new(tile_x, map_y + ROOM_SIZE_TILES - 1)
+			map.add_tile(tile_x, map_y + ROOM_SIZE_TILES - 1, WallTile)
 	if direction == "left":
 		for tile_y in range(map_y, map_y + ROOM_SIZE_TILES):
-			tiles[map_x][tile_y] = WallTile.new(map_x, tile_y)
+			map.add_tile(map_x, tile_y, WallTile)
 	if direction == "right":
 		for tile_y in range(map_y, map_y + ROOM_SIZE_TILES):
-			tiles[map_x + ROOM_SIZE_TILES - 1][tile_y] = WallTile.new(map_x + ROOM_SIZE_TILES - 1, tile_y)
-	return tiles
+			map.add_tile(map_x + ROOM_SIZE_TILES - 1, tile_y, WallTile)
