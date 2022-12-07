@@ -22,6 +22,11 @@ _global_script_classes=[ {
 "base": "Reference",
 "class": "DungeonGenerator",
 "language": "GDScript",
+"path": "res://DungeonGenerator_old.gd"
+}, {
+"base": "Reference",
+"class": "DungeonGenerator_old",
+"language": "GDScript",
 "path": "res://DungeonGenerator.gd"
 }, {
 "base": "Actor",
@@ -40,6 +45,11 @@ _global_script_classes=[ {
 "path": "res://scenes/Hero.gd"
 }, {
 "base": "Reference",
+"class": "Map",
+"language": "GDScript",
+"path": "res://scripts/map.gd"
+}, {
+"base": "Reference",
 "class": "Tile",
 "language": "GDScript",
 "path": "res://scripts/tile.gd"
@@ -53,9 +63,11 @@ _global_script_class_icons={
 "AStarGenerator": "",
 "Actor": "",
 "DungeonGenerator": "",
+"DungeonGenerator_old": "",
 "Enemy": "",
 "FloorTile": "",
 "Hero": "",
+"Map": "",
 "Tile": "",
 "WallTile": ""
 }

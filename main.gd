@@ -8,11 +8,14 @@ const WORLD_SIZE_Y = 50
 const TILE_SIZE = 24
 
 var tiles
+var tiles_dict = {}
 var turn_taken = false
+
+var enemy_scene = preload("res://scenes/Enemy.tscn")
 
 func _ready():
 	tiles = generate_tiles_array(WORLD_SIZE_X, WORLD_SIZE_Y)
-	var dungeonGenerator = DungeonGenerator.new(tiles)
+	var dungeonGenerator = DungeonGenerator_old.new(tiles)
 	var dungeonData = dungeonGenerator.generate_dungeon()
 	tiles = dungeonData.tiles
 	var spawn_coords = dungeonData.spawn_coordinates
@@ -21,8 +24,7 @@ func _ready():
 	# set hero starting coords
 	hero.set_tile_coords(spawn_coords)
 	
-	# create a couple enemies
-	var enemy_scene = load("res://scenes/Enemy.tscn")		
+	# create a couple enemies	
 	var enemy_spawn_coords = dungeonData.enemy_spawn_coordinates
 	for coord in enemy_spawn_coords:
 		var enemy: Enemy = enemy_scene.instance()

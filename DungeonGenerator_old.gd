@@ -1,4 +1,4 @@
-class_name DungeonGenerator_old
+class_name DungeonGenerator
 
 const ROOM_SIZE_TILES = 9
 const ROOM_SLOTS_IN_WORLD = 5
