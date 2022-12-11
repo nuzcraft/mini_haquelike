@@ -15,6 +15,7 @@ func _ready():
 	var dungeonData = dungeonGenerator.generate_dungeon()
 	map = dungeonData.map
 	var spawn_coords = dungeonData.spawn_coordinates
+	map.compute_astar()
 	
 	set_tilemap_cells()
 	
@@ -29,6 +30,11 @@ func _ready():
 		add_child(enemy)
 	
 func _process(_delta):
+	
+	map.compute_astar()
+	for actor in get_tree().get_nodes_in_group("actors"):
+		actor.astar = map.astar
+	
 	if Input.is_action_just_pressed("ui_up"):
 		try_move(hero, [0, -1])
 	if Input.is_action_just_pressed("ui_down"):
@@ -41,7 +47,11 @@ func _process(_delta):
 	if turn_taken:
 		for actor in get_tree().get_nodes_in_group("actors"):
 			if actor != hero:
-				try_move(actor, [1, 0])
+				var path = actor.get_path_to_target(hero.get_position_vector())
+				print(actor.get_position_vector())
+				print(path)
+#				try_move(actor, actor.get_next_move())
+				
 	
 	turn_taken = false
 	

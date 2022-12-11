@@ -9,11 +9,6 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "Reference",
-"class": "AStarGenerator",
-"language": "GDScript",
-"path": "res://AStarGenerator.gd"
-}, {
 "base": "Node2D",
 "class": "Actor",
 "language": "GDScript",
@@ -32,7 +27,7 @@ _global_script_classes=[ {
 "base": "Tile",
 "class": "FloorTile",
 "language": "GDScript",
-"path": "res://scripts/floor_tile.gd"
+"path": "res://scripts/tiles/floor_tile.gd"
 }, {
 "base": "Actor",
 "class": "Hero",
@@ -47,15 +42,14 @@ _global_script_classes=[ {
 "base": "Reference",
 "class": "Tile",
 "language": "GDScript",
-"path": "res://scripts/tile.gd"
+"path": "res://scripts/tiles/tile.gd"
 }, {
 "base": "Tile",
 "class": "WallTile",
 "language": "GDScript",
-"path": "res://scripts/wall_tile.gd"
+"path": "res://scripts/tiles/wall_tile.gd"
 } ]
 _global_script_class_icons={
-"AStarGenerator": "",
 "Actor": "",
 "DungeonGenerator": "",
 "Enemy": "",

@@ -12,7 +12,6 @@ var rng = RandomNumberGenerator.new()
 
 func _init(map_param: Map):
 	map = map_param
-	print(map)
 
 func generate_dungeon():
 	rng.randomize()
