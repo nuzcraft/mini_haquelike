@@ -15,7 +15,21 @@ func _ready():
 	var dungeonData = dungeonGenerator.generate_dungeon()
 	map = dungeonData.map
 	var spawn_coords = dungeonData.spawn_coordinates
+#	map.compute_astar()
+
+	map = Map.new()
+	for i in range(10):
+		for j in range(10):
+			if i == 0:
+				map.add_tile(i, j, WallTile)
+			else:
+				map.add_tile(i, j, FloorTile)
+	spawn_coords = [2, 2]
 	map.compute_astar()
+	print(map.astar.get_points())
+	print(map.astar.get_point_position(1))
+	print(map.astar.get_point_position(66))
+	print(map.astar.get_point_path(1, 66))
 	
 	set_tilemap_cells()
 	
@@ -24,6 +38,7 @@ func _ready():
 	
 	# create a couple enemies	
 	var enemy_spawn_coords = dungeonData.enemy_spawn_coordinates
+	enemy_spawn_coords = [[6, 6]]
 	for coord in enemy_spawn_coords:
 		var enemy: Enemy = enemy_scene.instance()
 		enemy.set_tile_coords(coord)

@@ -53,6 +53,7 @@ func compute_astar():
 				adj_point = astar.get_available_point_id()
 				astar.add_point(adj_point, adj_vec)
 			astar.connect_points(main_point, adj_point)
+
 	
 		
 		
