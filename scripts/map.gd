@@ -11,8 +11,8 @@ func add_tile(x, y, tile):
 	tiles.erase(new_key)
 	tiles[new_key] = tile.new(x, y)
 
-func get_tile(x, y):
-	return tiles[Vector2(x, y)]
+func get_tile(location: Vector2):
+	return tiles[location]
 
 func get_adjacent_tiles(vec):
 	var adjacent_tiles = {}

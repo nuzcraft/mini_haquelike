@@ -1,34 +1,33 @@
 extends Node2D
 
 onready var tilemap := $WorldTileMap
-onready var hero := $Hero
+onready var stage := $Stage
+onready var hero := $Stage/Hero
 
 const TILE_SIZE = 24
 
-var map = Map.new()
 var turn_taken = false
 
 var enemy_scene = preload("res://scenes/Enemy.tscn")
 
 func _ready():	
-	var dungeonGenerator = DungeonGenerator.new(map, 2, 0)
+	var dungeonGenerator = DungeonGenerator.new(stage.map, 2, 0)
 	var dungeonData = dungeonGenerator.generate_dungeon()
-	map = dungeonData.map
+	stage.map = dungeonData.map
 	var spawn_coords = dungeonData.spawn_coordinates
-	map.compute_astar()
+	stage.map.compute_astar()
 	
 	set_tilemap_cells()
 	
 	# set hero starting coords
-	hero.set_tile_coords(spawn_coords)
+	stage.hero = hero
+	hero.set_tile_location(spawn_coords)
 	
 	# create a couple enemies	
 	var enemy_spawn_coords = dungeonData.enemy_spawn_coordinates
 #	enemy_spawn_coords = [[6, 6]]
 	for coord in enemy_spawn_coords:
-		var enemy: Enemy = enemy_scene.instance()
-		enemy.set_tile_coords(coord)
-		add_child(enemy)
+		stage.add_actor(Enemy, coord)
 	
 func _process(_delta):	
 	if Input.is_action_just_pressed("ui_up"):
@@ -41,14 +40,15 @@ func _process(_delta):
 		try_move(hero, Vector2(1, 0))
 		
 	if turn_taken:
-		map.compute_astar()
+		stage.map.compute_astar()
 		for actor in get_tree().get_nodes_in_group("actors"):
 			if actor != hero:
 #				var path = actor.get_path_to_target(hero.get_position_vector())
-				var actor_index = map.astar.get_closest_point(actor.get_position_vector())
-				var hero_index = map.astar.get_closest_point(hero.get_position_vector())
-				actor.path = map.astar.get_point_path(actor_index, hero_index)
-				try_move(actor, actor.get_next_move())
+				var actor_index = stage.map.astar.get_closest_point(actor.get_tile_location())
+				var hero_index = stage.map.astar.get_closest_point(hero.get_tile_location())
+				actor.path = stage.map.astar.get_point_path(actor_index, hero_index)
+				if actor.get_next_move():
+					try_move(actor, actor.get_next_move())
 				
 	
 	turn_taken = false
@@ -63,7 +63,7 @@ func generate_tiles_array(x_size, y_size):
 			
 func set_tilemap_cells() -> void:
 	tilemap.clear()
-	var tiles = map.get_tiles()
+	var tiles = stage.map.get_tiles()
 	for coord in tiles.keys():
 		var tile = tiles[coord]
 		var tile_type_int = tilemap.tile_type[tile.tile_type]
@@ -71,9 +71,8 @@ func set_tilemap_cells() -> void:
 	
 func try_move(actor, delta: Vector2):
 	if delta:
-		var new_tile_x = actor.tile_x + delta.x
-		var new_tile_y = actor.tile_y + delta.y
-		var destination_tile = map.get_tile(new_tile_x, new_tile_y)
+		var new_location = actor.get_tile_location() + delta
+		var destination_tile = stage.map.get_tile(new_location)
 		if destination_tile.get_is_walkable():
 			actor.move(delta)
 			if actor == hero:

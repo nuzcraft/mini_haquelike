@@ -32,7 +32,7 @@ func generate_dungeon():
 	var initial_room_x = rng.randi_range(0, ROOM_SLOTS_IN_WORLD - 1)
 	var initial_room_y = rng.randi_range(0, ROOM_SLOTS_IN_WORLD - 1)
 	var this_room_coords = [initial_room_x, initial_room_y]
-	dungeon_data["spawn_coordinates"] = [initial_room_x * ROOM_SIZE_TILES + 4, initial_room_y * ROOM_SIZE_TILES + 2]
+	dungeon_data["spawn_coordinates"] = Vector2(initial_room_x * ROOM_SIZE_TILES + 4, initial_room_y * ROOM_SIZE_TILES + 2)
 	var rooms_coords = []
 	rooms_coords.append(this_room_coords)
 	# find available adjacent slots, pick one, add to list of rooms
@@ -151,7 +151,7 @@ func generate_random_room(map_x, map_y):
 				Color.black:
 					new_tile = WallTile
 				Color.red:
-					enemy_spawn_coordinates.append([map_x + x, map_y + y])
+					enemy_spawn_coordinates.append(Vector2(map_x + x, map_y + y))
 					new_tile = FloorTile
 				Color.white:
 					new_tile = FloorTile
