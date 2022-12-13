@@ -3,6 +3,9 @@ class_name DungeonGenerator
 const ROOM_SIZE_TILES = 9
 const ROOM_SLOTS_IN_WORLD = 5
 
+var num_happy_path_rooms = 5
+var num_branch_rooms = 3
+
 var rooms_layouts_data = preload("res://resources/room_layouts.png").get_data()
 
 var map: Map
@@ -10,8 +13,10 @@ var enemy_spawn_coordinates = []
 
 var rng = RandomNumberGenerator.new()
 
-func _init(map_param: Map):
+func _init(map_param: Map, num_happy_path_rooms_param: int = 5, num_branch_rooms_param: int = 3):
 	map = map_param
+	num_happy_path_rooms = num_happy_path_rooms_param
+	num_branch_rooms = num_branch_rooms_param
 
 func generate_dungeon():
 	rng.randomize()
@@ -33,7 +38,7 @@ func generate_dungeon():
 	# find available adjacent slots, pick one, add to list of rooms
 	# repeat x times to create the happy path of the dungeon
 	# store the happy path somewhere
-	while rooms_coords.size() < 5:
+	while rooms_coords.size() < num_happy_path_rooms:
 		var adjacent_coords = get_adjacent_room_coords(this_room_coords)
 		var new_room_coords = get_random_room_coords(adjacent_coords)
 		if not rooms_coords.has(new_room_coords):
@@ -44,7 +49,7 @@ func generate_dungeon():
 	# find available adjacent slots, pick one, add to list of rooms
 	# repeat x times for branching paths
 	var branch_rooms = []
-	while branch_rooms.size() < 3:
+	while branch_rooms.size() < num_branch_rooms:
 		var room_to_branch_from = get_random_room_coords(rooms_coords)
 		var adjacent_branch_coords = get_adjacent_room_coords(room_to_branch_from)
 		var new_branch_coords = get_random_room_coords(adjacent_branch_coords)

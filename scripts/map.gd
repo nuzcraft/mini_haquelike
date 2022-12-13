@@ -30,17 +30,15 @@ func compute_astar():
 	astar.clear()
 	for vec in tiles.keys():
 		# check if the vector is already a position in the astar map
-		var point_found = false
-		for point in astar.get_points():
-			if astar.get_point_position(point) == vec:
-				point_found = true
-		if point_found:
-			continue
-		# check if the position is a walkable one
 		if not tiles[vec].get_is_walkable():
 			continue
-		var main_point = astar.get_available_point_id()
-		astar.add_point(main_point, vec)
+		var main_point = null
+		for point in astar.get_points():
+			if astar.get_point_position(point) == vec:
+				main_point = point
+		if main_point == null:
+			main_point = astar.get_available_point_id()
+			astar.add_point(main_point, vec)
 		# let's do the same with adjacent tiles
 		for adj_vec in get_adjacent_tiles(vec):
 			if not tiles[adj_vec].get_is_walkable():
@@ -52,9 +50,4 @@ func compute_astar():
 			if adj_point == null:
 				adj_point = astar.get_available_point_id()
 				astar.add_point(adj_point, adj_vec)
-			astar.connect_points(main_point, adj_point)
-
-	
-		
-		
-	
+			astar.connect_points(main_point, adj_point)	
