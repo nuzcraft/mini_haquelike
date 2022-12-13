@@ -6,12 +6,18 @@ onready var hero := $Stage/Hero
 
 const TILE_SIZE = 24
 
+var ascii:bool = false
+const ascii_tileset = preload("res://tilesets/AsciiTileSet.tres")
+var tileset = null
+
 var turn_taken = false
 
 var enemy_scene = preload("res://scenes/Enemy.tscn")
 
 func _ready():	
-	var dungeonGenerator = DungeonGenerator.new(stage.map, 2, 0)
+	toggle_ascii(ascii)
+	
+	var dungeonGenerator = DungeonGenerator.new(stage.map, 5, 3)
 	var dungeonData = dungeonGenerator.generate_dungeon()
 	stage.map = dungeonData.map
 	var spawn_coords = dungeonData.spawn_coordinates
@@ -38,6 +44,9 @@ func _process(_delta):
 		try_move(hero, Vector2(-1, 0))
 	if Input.is_action_just_pressed("ui_right"):
 		try_move(hero, Vector2(1, 0))
+	if Input.is_action_just_pressed("toggle_ascii"):
+		ascii = !ascii
+		toggle_ascii(ascii)
 		
 	if turn_taken:
 		stage.map.compute_astar()
@@ -77,4 +86,14 @@ func try_move(actor, delta: Vector2):
 			actor.move(delta)
 			if actor == hero:
 				turn_taken = true
-	
+				
+func toggle_ascii(is_ascii):
+	if is_ascii:
+		tileset = tilemap.get_tileset()
+		tilemap.set_tileset(ascii_tileset)
+	else:
+		if not tileset == null:
+			tilemap.set_tileset(tileset)
+	hero.toggle_ascii(is_ascii)
+	stage.toggle_ascii(is_ascii)
+		

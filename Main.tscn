@@ -1,10 +1,9 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://main.gd" type="Script" id=1]
 [ext_resource path="res://WorldTileMap.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scenes/Hero.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scenes/Stage.tscn" type="PackedScene" id=4]
-[ext_resource path="res://tilesets/AsciiTileSet.tres" type="TileSet" id=5]
 
 [node name="Main" type="Node2D"]
 script = ExtResource( 1 )
@@ -15,5 +14,4 @@ script = ExtResource( 1 )
 z_index = 15
 
 [node name="WorldTileMap" parent="." instance=ExtResource( 2 )]
-tile_set = ExtResource( 5 )
 centered_textures = true

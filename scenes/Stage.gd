@@ -15,4 +15,8 @@ func add_actor(actor_class, location: Vector2):
 	actor.set_tile_location(location)
 	add_child(actor)	
 	actors.append(actor)
+	
+func toggle_ascii(is_ascii):
+	for actor in actors:
+		actor.toggle_ascii(is_ascii)
 
