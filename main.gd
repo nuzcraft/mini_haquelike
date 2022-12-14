@@ -3,6 +3,7 @@ extends Node2D
 onready var tilemap := $WorldTileMap
 onready var stage := $Stage
 onready var hero := $Stage/Hero
+onready var camera := $Stage/Hero/Camera2D
 
 const TILE_SIZE = 24
 
@@ -45,6 +46,11 @@ func _process(_delta):
 	if Input.is_action_just_pressed("toggle_ascii"):
 		ascii = !ascii
 		toggle_ascii(ascii)
+	if Input.is_action_just_pressed("camera_toggle"):
+		if camera.get_zoom() == Vector2(1, 1):
+			camera.set_zoom(Vector2(.25, .25))
+		else:
+			camera.set_zoom(Vector2(1, 1))
 		
 	if turn_taken:
 		stage.take_actors_turns()
@@ -66,6 +72,7 @@ func set_tilemap_cells() -> void:
 		var tile = tiles[coord]
 		var tile_type_int = tilemap.tile_type[tile.tile_type]
 		tilemap.set_cell(coord.x, coord.y, tile_type_int)
+	tilemap.update_bitmask_region()
 				
 func toggle_ascii(is_ascii):
 	if is_ascii:
