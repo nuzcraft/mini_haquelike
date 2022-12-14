@@ -13,5 +13,9 @@ script = ExtResource( 1 )
 [node name="Hero" parent="Stage" instance=ExtResource( 3 )]
 z_index = 15
 
+[node name="Camera2D" type="Camera2D" parent="Stage/Hero"]
+current = true
+zoom = Vector2( 0.25, 0.25 )
+
 [node name="WorldTileMap" parent="." instance=ExtResource( 2 )]
 centered_textures = true
