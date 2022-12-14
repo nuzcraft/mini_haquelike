@@ -24,3 +24,15 @@ func get_adjacent_tiles(vec):
 				if tiles.has(new_vec):
 					adjacent_tiles[new_vec] = tiles[new_vec]
 	return adjacent_tiles
+	
+func get_surrounding_tiles(vec):
+	var surrounding_tiles = {}
+	var x = vec.x
+	var y = vec.y
+	for i in [-1, 0, 1]:
+		for j in [-1, 0, 1]:
+			if not (i == 0 and j == 0):
+				var new_vec = Vector2(x + i, y + j)
+				if tiles.has(new_vec):
+					surrounding_tiles[new_vec] = tiles[new_vec]
+	return surrounding_tiles
