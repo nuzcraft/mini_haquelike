@@ -3,6 +3,7 @@ extends Node2D
 class_name Actor
 
 onready var animatedSprite := $AnimatedSprite
+onready var target_sprite_position = animatedSprite.position
 
 var ascii: bool = false
 var spriteFrames = null
@@ -16,17 +17,26 @@ const TILE_SIZE = 24
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
+	
+func _process(delta):
+	animatedSprite.position = animatedSprite.position.move_toward(target_sprite_position, 120.0 * delta)
+#	animatedSprite.position = move_toward(animatedSprite.position, target_sprite_position, 1.0) * delta
 
 func set_tile_location(location: Vector2):
 	tile_location = location
 	position.x = location.x * TILE_SIZE
 	position.y = location.y * TILE_SIZE
 	
+func set_sprite_position(delta: Vector2):
+	animatedSprite.position -= delta * TILE_SIZE
+
+	
 func get_tile_location():
 	return tile_location
 	
 func move(delta: Vector2):
 	self.tile_location += delta
+	set_sprite_position(delta)
 	if ascii:
 		animatedSprite.flip_h = false
 	else:
