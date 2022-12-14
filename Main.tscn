@@ -14,3 +14,4 @@ script = ExtResource( 1 )
 z_index = 15
 
 [node name="WorldTileMap" parent="." instance=ExtResource( 2 )]
+centered_textures = true
