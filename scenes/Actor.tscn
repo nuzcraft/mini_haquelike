@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://scenes/ActorAsciiSpriteFrames.tres" type="SpriteFrames" id=1]
+[ext_resource path="res://scenes/ActorSpriteFrames.tres" type="SpriteFrames" id=1]
 [ext_resource path="res://scenes/Actor.gd" type="Script" id=2]
 
 [node name="Actor" type="Node2D" groups=["actors"]]
