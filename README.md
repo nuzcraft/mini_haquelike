@@ -8,8 +8,8 @@ TODO:
 //things like UI and user input should be handled by the main scene (tilemaps too)//
 //convert all x,y arrays into vector2//
 //zoomed in camera view (with ability to switch views)//
+//convert wall into autotile//
 
-convert wall into autotile
 change blocked in wall tiles to empty tiles
 
 combat? goals? theme? story?

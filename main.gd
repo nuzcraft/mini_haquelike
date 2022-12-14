@@ -72,6 +72,7 @@ func set_tilemap_cells() -> void:
 		var tile = tiles[coord]
 		var tile_type_int = tilemap.tile_type[tile.tile_type]
 		tilemap.set_cell(coord.x, coord.y, tile_type_int)
+	tilemap.update_bitmask_region()
 				
 func toggle_ascii(is_ascii):
 	if is_ascii:
