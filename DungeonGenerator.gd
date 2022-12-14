@@ -107,6 +107,7 @@ func generate_dungeon():
 				else:
 					found_link_to_happy_path = true
 	# TODO: put walls between branch rooms unless it would block access
+	remove_blocked_in_walls()
 	dungeon_data["map"] = map
 	dungeon_data["enemy_spawn_coordinates"] = enemy_spawn_coordinates
 	return dungeon_data
@@ -188,3 +189,16 @@ func fill_wall_direction(room_coord, direction):
 	if direction == "right":
 		for tile_y in range(map_y, map_y + ROOM_SIZE_TILES):
 			map.add_tile(map_x + ROOM_SIZE_TILES - 1, tile_y, WallTile)
+			
+func remove_blocked_in_walls():
+	var tiles = map.get_tiles()
+	for location in tiles.keys():
+		if tiles[location] is WallTile:
+			var adjacent_tiles = map.get_surrounding_tiles(location)
+			var blocked_in = true
+			for tile in adjacent_tiles.values():
+				if tile is FloorTile:
+					blocked_in = false
+					continue
+			if blocked_in:
+				map.add_tile(location.x, location.y, Tile)

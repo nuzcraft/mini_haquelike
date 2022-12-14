@@ -9,7 +9,6 @@ TODO:
 //convert all x,y arrays into vector2//
 //zoomed in camera view (with ability to switch views)//
 //convert wall into autotile//
-
-change blocked in wall tiles to empty tiles
+//change blocked in wall tiles to empty tiles//
 
 combat? goals? theme? story?
