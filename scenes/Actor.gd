@@ -27,7 +27,9 @@ func get_tile_location():
 	
 func move(delta: Vector2):
 	self.tile_location += delta
-	if not ascii:
+	if ascii:
+		animatedSprite.flip_h = false
+	else:
 		if delta.x > 0:
 			animatedSprite.flip_h = true
 		elif delta.x < 0:
@@ -44,6 +46,7 @@ func toggle_ascii(is_ascii):
 	if ascii:
 		spriteFrames = animatedSprite.get_sprite_frames()
 		animatedSprite.set_sprite_frames(asciiSpriteFrames)
+		animatedSprite.flip_h = false
 	else:
 		if !spriteFrames == null:
 			animatedSprite.set_sprite_frames(spriteFrames)
