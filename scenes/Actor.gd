@@ -18,8 +18,8 @@ const TILE_SIZE = 24
 func _ready():
 	pass # Replace with function body.
 	
-func _process(delta):
-	animatedSprite.position = animatedSprite.position.move_toward(target_sprite_position, 120.0 * delta)
+#func _process(delta):
+#	animatedSprite.position = animatedSprite.position.move_toward(target_sprite_position, 120.0 * delta)
 #	animatedSprite.position = move_toward(animatedSprite.position, target_sprite_position, 1.0) * delta
 
 func set_tile_location(location: Vector2):
@@ -29,6 +29,8 @@ func set_tile_location(location: Vector2):
 	
 func set_sprite_position(delta: Vector2):
 	animatedSprite.position -= delta * TILE_SIZE
+	var tween = get_tree().create_tween()
+	tween.tween_property(animatedSprite, "position", target_sprite_position, 0.25)
 
 	
 func get_tile_location():

@@ -16,7 +16,10 @@ z_index = 15
 [node name="Camera2D" type="Camera2D" parent="Stage/Hero"]
 current = true
 zoom = Vector2( 0.25, 0.25 )
+drag_margin_h_enabled = true
+drag_margin_v_enabled = true
 smoothing_enabled = true
+smoothing_speed = 3.0
 
 [node name="WorldTileMap" parent="." instance=ExtResource( 2 )]
 centered_textures = true
