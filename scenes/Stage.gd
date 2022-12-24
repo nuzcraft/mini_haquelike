@@ -6,6 +6,7 @@ var map = Map.new()
 var astar = AStar2D.new()
 var actors = []
 var hero: Hero
+var fov_map: MRPAS
 
 var actor_scene_dict = {
 	Enemy: preload("res://scenes/Enemy.tscn")
@@ -67,3 +68,28 @@ func take_actors_turns():
 			actor.path = astar.get_point_path(actor_index, hero_index)
 			if actor.get_next_move():
 				try_move(actor, actor.get_next_move())
+
+func create_fov_map():
+	var size = Vector2.ZERO
+	for tile_position in map.get_tiles():
+		if tile_position > size:
+			size = tile_position
+	fov_map = MRPAS.new(size + Vector2.ONE)
+	fill_fov_map()
+	
+func fill_fov_map():
+	var tiles = map.get_tiles()
+	for key in tiles:
+		if not tiles[key].get_is_walkable():
+			fov_map.set_transparent(key, false)
+			
+func compute_fov():
+	fov_map.clear_field_of_view()
+	fov_map.compute_field_of_view(hero.get_tile_location(), 3)
+	for key in map.tiles:
+		if fov_map.is_in_view(key):
+			map.tiles[key].is_visible = true
+			map.tiles[key].is_explored = true
+		else:
+			map.tiles[key].is_visible = false
+			

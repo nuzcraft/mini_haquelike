@@ -6,6 +6,7 @@ var is_explored: bool = false setget set_is_explored,get_is_explored
 var is_walkable: bool = true setget set_is_walkable,get_is_walkable
 var is_visible: bool = false setget set_is_visible,get_is_visible
 var tile_type = "EMPTY"
+var explored_tile_type = "EMPTY"
 
 func _init(x_param, y_param):
 	x = x_param
@@ -35,3 +36,10 @@ func set_is_visible(value: bool):
 	
 func get_is_visible() -> bool:
 	return is_visible
+	
+func get_tile_type():
+	if is_visible:
+		return tile_type
+	elif is_explored:
+		return explored_tile_type
+	return "EMPTY"

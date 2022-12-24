@@ -35,6 +35,11 @@ _global_script_classes=[ {
 "path": "res://scenes/Hero.gd"
 }, {
 "base": "Reference",
+"class": "MRPAS",
+"language": "GDScript",
+"path": "res://addons/mrpas/mrpas.gd"
+}, {
+"base": "Reference",
 "class": "Map",
 "language": "GDScript",
 "path": "res://scripts/map.gd"
@@ -60,6 +65,7 @@ _global_script_class_icons={
 "Enemy": "",
 "FloorTile": "",
 "Hero": "",
+"MRPAS": "",
 "Map": "",
 "Stage": "",
 "Tile": "",

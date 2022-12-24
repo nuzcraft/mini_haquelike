@@ -21,9 +21,8 @@ func _ready():
 	var dungeonGenerator = DungeonGenerator.new(stage.map, 5, 3)
 	var dungeonData = dungeonGenerator.generate_dungeon()
 	stage.map = dungeonData.map
+	stage.create_fov_map()
 	var spawn_coords = dungeonData.spawn_coordinates
-	
-	set_tilemap_cells()
 	
 	stage.hero = hero
 	hero.set_tile_location(spawn_coords)
@@ -33,6 +32,8 @@ func _ready():
 		stage.add_actor(Enemy, coord)
 		
 	stage.compute_astar()
+	stage.compute_fov()
+	set_tilemap_cells()
 	
 func _process(_delta):	
 	if Input.is_action_just_pressed("ui_up"):
@@ -53,6 +54,8 @@ func _process(_delta):
 			camera.set_zoom(Vector2(1, 1))
 		
 	if turn_taken:
+		stage.compute_fov()
+		set_tilemap_cells()
 		stage.take_actors_turns()
 				
 	turn_taken = false
@@ -67,12 +70,11 @@ func generate_tiles_array(x_size, y_size):
 			
 func set_tilemap_cells() -> void:
 	tilemap.clear()
-	var tiles = stage.map.get_tiles()
-	for coord in tiles.keys():
-		var tile = tiles[coord]
-		var tile_type_int = tilemap.tile_type[tile.tile_type]
+	for coord in stage.map.tiles.keys():
+		var tile = stage.map.tiles[coord]
+		var tile_type_int = tilemap.tile_type[tile.get_tile_type()]
 		tilemap.set_cell(coord.x, coord.y, tile_type_int)
-	tilemap.update_bitmask_region()
+		tilemap.update_bitmask_region()
 				
 func toggle_ascii(is_ascii):
 	if is_ascii:
