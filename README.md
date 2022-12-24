@@ -12,3 +12,9 @@ TODO:
 //change blocked in wall tiles to empty tiles//
 
 combat? goals? theme? story?
+
+//sprite offsets for smoother movement//
+//see if a tween for smoother movement will be better//
+
+melee combat via button press followed by direction
+screen shake
