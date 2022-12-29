@@ -85,7 +85,7 @@ func fill_fov_map():
 			
 func compute_fov():
 	fov_map.clear_field_of_view()
-	fov_map.compute_field_of_view(hero.get_tile_location(), 3)
+	fov_map.compute_field_of_view(hero.get_tile_location(), hero.fov_range)
 	for key in map.tiles:
 		if fov_map.is_in_view(key):
 			map.tiles[key].is_visible = true
