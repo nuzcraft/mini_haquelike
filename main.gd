@@ -28,8 +28,8 @@ func _ready():
 	hero.set_tile_location(spawn_coords)
 	
 	var enemy_spawn_coords = dungeonData.enemy_spawn_coordinates
-	for coord in enemy_spawn_coords:
-		stage.add_actor(Enemy, coord)
+#	for coord in enemy_spawn_coords:
+#		stage.add_actor(Enemy, coord)
 
 	stage.compute_astar()
 	stage.compute_fov()
