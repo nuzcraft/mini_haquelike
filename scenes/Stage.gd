@@ -93,3 +93,10 @@ func compute_fov():
 		else:
 			map.tiles[key].is_visible = false
 			
+func set_actor_visibility():
+	for actor in actors:
+		if map.tiles[actor.get_tile_location()].is_visible:
+			actor.visible = true
+		else:
+			actor.visible = false
+			

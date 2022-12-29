@@ -28,11 +28,12 @@ func _ready():
 	hero.set_tile_location(spawn_coords)
 	
 	var enemy_spawn_coords = dungeonData.enemy_spawn_coordinates
-#	for coord in enemy_spawn_coords:
-#		stage.add_actor(Enemy, coord)
+	for coord in enemy_spawn_coords:
+		stage.add_actor(Enemy, coord)
 
 	stage.compute_astar()
 	stage.compute_fov()
+	stage.set_actor_visibility()
 	tilemap.clear()
 	for x in range(-10, 50):
 		for y in range(-10, 50):
@@ -59,8 +60,9 @@ func _process(_delta):
 		
 	if turn_taken:
 		stage.compute_fov()
-		set_tilemap_cells()
 		stage.take_actors_turns()
+		stage.set_actor_visibility()
+		set_tilemap_cells()
 				
 	turn_taken = false
 	
