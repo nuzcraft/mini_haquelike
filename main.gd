@@ -28,11 +28,15 @@ func _ready():
 	hero.set_tile_location(spawn_coords)
 	
 	var enemy_spawn_coords = dungeonData.enemy_spawn_coordinates
-#	for coord in enemy_spawn_coords:
-#		stage.add_actor(Enemy, coord)
-		
+	for coord in enemy_spawn_coords:
+		stage.add_actor(Enemy, coord)
+
 	stage.compute_astar()
 	stage.compute_fov()
+	tilemap.clear()
+	for x in range(-10, 50):
+		for y in range(-10, 50):
+			tilemap.set_cell(x, y, tilemap.tile_type.EMPTY)
 	set_tilemap_cells()
 	
 func _process(_delta):	
@@ -69,12 +73,12 @@ func generate_tiles_array(x_size, y_size):
 	return array	
 			
 func set_tilemap_cells() -> void:
-	tilemap.clear()
+#	tilemap.clear()
 	for coord in stage.map.tiles.keys():
 		var tile = stage.map.tiles[coord]
 		var tile_type_int = tilemap.tile_type[tile.get_tile_type()]
 		tilemap.set_cell(coord.x, coord.y, tile_type_int)
-		tilemap.update_bitmask_region()
+	tilemap.update_bitmask_region()
 				
 func toggle_ascii(is_ascii):
 	if is_ascii:
