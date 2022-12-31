@@ -17,7 +17,7 @@
 ### Clips
 
 1. pre-changes clip
-2. Mingos' Restrictive Precise Angle Shadowcasting text on screen
+2. continued + Mingos' Restrictive Precise Angle Shadowcasting text on screen
 3. Clip of the code that sets up the fov
 4. In progress clip of visible and explored tiles
 5. Continued
